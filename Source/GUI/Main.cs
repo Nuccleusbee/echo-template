@@ -17,7 +17,6 @@ public class Main
 		{
 			NotificationLib.Tick();
 			HandleButtonActions();
-			PcMenuManager.Tick();
 		}
 		catch (Exception ex)
 		{

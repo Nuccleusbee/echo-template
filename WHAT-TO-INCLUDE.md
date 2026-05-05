@@ -9,22 +9,25 @@ Copy these into `Source/` matching the existing folder structure:
 ```
 Source/
 ├── Initialization/
-│   └── BepInExInitializer.cs        ← from EchoTemplate.Initialization/
+│   └── BepInExInitializer.cs        ← already in this template
 ├── GUI/
-│   ├── Main.cs                      ← from EchoTemplate.GUI/
-│   └── PcMenuManager.cs             ← from EchoTemplate.GUI/
+│   ├── Main.cs                      ← already in this template (frame loop)
+│   └── PlaceholderUI.cs             ← ugly IMGUI stub — REPLACE with your own UI before shipping
 ├── Menu/
-│   ├── ButtonHandler.cs             ← from EchoTemplate.Menu/
-│   ├── Category.cs                  ← from EchoTemplate.Menu/
-│   ├── ModButtons.cs                ← from EchoTemplate.Menu/
-│   └── Optimizations.cs             ← from EchoTemplate.Menu/
+│   ├── ButtonHandler.cs             ← already in this template
+│   ├── Category.cs                  ← already in this template
+│   └── ModButtons.cs                ← already in this template (with example entries)
 ├── Utilities/
-│   ├── Variables.cs                 ← from EchoTemplate.Utilities/
-│   └── NotificationLib.cs           ← from EchoTemplate.Utilities/
+│   ├── Variables.cs                 ← already in this template
+│   └── NotificationLib.cs           ← already in this template
 └── Mods/
     ├── ExampleHello.cs              ← already in this template
     ├── ExampleSpinHead.cs           ← already in this template
     └── ExampleJump.cs               ← already in this template
+
+# NOT included — write your own
+# ├── GUI/YourCustomMenu.cs          ← the actual UI is private. The template
+#                                       gives you the framework only.
 ```
 
 Also copy any `IgnoresAccessChecksToAttribute.cs` that the parent uses (it grants internal access to `Assembly-CSharp` so the menu can reach private GTag types). Look in `System.Runtime.CompilerServices/` in the parent.

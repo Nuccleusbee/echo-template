@@ -11,8 +11,8 @@ A starter mod menu for **Gorilla Tag** (Steam / PC). Drop in a `.cs` file, regis
 | File | What it is |
 |---|---|
 | `Source/Initialization/BepInExInitializer.cs` | Plugin entry point — Harmony patches + game cache |
-| `Source/GUI/Main.cs` | Frame-driver — pulses every enabled mod, manages VR menu spawn / drop |
-| `Source/GUI/PcMenuManager.cs` | The PC overlay UI (header, mod rows, side rails, footer) |
+| `Source/GUI/Main.cs` | Frame-driver — pulses every enabled mod each frame |
+| `Source/GUI/PlaceholderUI.cs` | **Bare-bones IMGUI stub** so the template runs out of the box. **Replace it with your own UI.** The actual Echo Menu UI is not part of this template. |
 | `Source/Menu/ButtonHandler.cs` | The button data model + click dispatcher |
 | `Source/Menu/Category.cs` | Page enum (Home, Movement, Visual, etc.) |
 | `Source/Menu/ModButtons.cs` | The button registry — **add your mods here** |
@@ -43,22 +43,15 @@ That's the whole loop. Edit code → rebuild → copy DLL → restart game.
 
 ## How to use the menu in-game
 
-### Flat-PC mode
+### Flat-PC mode (placeholder UI)
 
 - Menu auto-appears when you launch in flat mode. **F1** hides / shows it.
-- **Drag the title bar** to move it around the screen.
-- **Scroll wheel on the title bar** resizes the panel.
-- **Click any row** to toggle a mod.
-- **‹ / ›** side rails paginate within a category (8 mods per page).
-- **⌂ HOME** at the bottom-right returns to the category list.
-- Some mods come with sliders (`Change X Speed` etc.) — **scroll wheel on the slider row** adjusts the value on PC.
+- The included UI is a deliberately ugly IMGUI stub — **swap it out for your own**. See [Building your own UI](#building-your-own-ui) below.
+- Click a category at the top, click a mod row to toggle it.
 
 ### VR mode
 
-- **Hold the secondary face button** (B on right Quest controller, X on left) to summon the menu next to that hand.
-- Point the **opposite hand** at a button to click it.
-- **Side bars** scroll category pages (`<` previous, `>` next).
-- **Home** button at the bottom returns to the category list.
+VR rendering is **not** included in this template — you decide how (or whether) to render the menu in VR. The button system, mod tick loop, and notification queue all run regardless of which renderer you wire up.
 
 ---
 
@@ -102,6 +95,19 @@ new ButtonHandler.Button("My Cool Mod", Category.Fun, true, false,
 Build, drop the DLL, restart game. Your mod shows up under the Fun category.
 
 ---
+
+## Building your own UI
+
+`Source/GUI/PlaceholderUI.cs` is intentionally minimal — Unity IMGUI, ugly grey buttons, no styling. It's there so the template runs the moment you build it, but it's **not** the actual Echo Menu UI and isn't meant to be shipped as-is.
+
+The contract for any replacement UI:
+
+- Read `ButtonHandler.GetButtonInfoByPage(category)` to get the buttons for a page.
+- On click, call `ButtonHandler.Toggle(button)` (it routes `<`, `>`, `ReturnButton`, `DisconnectButton` automatically and falls through to `ToggleButton` for normal mods).
+- For paged navigation, read `Variables.currentPage` and `Variables.currentCategoryPage`. To switch pages: `ButtonHandler.ChangePage(category)`. To paginate: `ButtonHandler.NavigatePage(forward)`.
+- That's the whole interface. Build any UI on top of it — Unity UGUI, IMGUI, TMP, custom canvas, whatever.
+
+Delete `Source/GUI/PlaceholderUI.cs` and the `ui.AddComponent<PlaceholderUI>()` line in `BepInExInitializer.cs` once you have your own UI wired up.
 
 ## Architecture in 30 seconds
 

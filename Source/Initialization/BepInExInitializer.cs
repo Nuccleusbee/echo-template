@@ -1,6 +1,7 @@
 using BepInEx;
 using HarmonyLib;
 using UnityEngine;
+using EchoTemplate.GUI;
 
 namespace EchoTemplate.Initialization;
 
@@ -15,6 +16,11 @@ public class BepInExInitializer : BaseUnityPlugin
 	{
 		Application.runInBackground = true;
 		new Harmony(GUID).PatchAll();
+
+		var ui = new GameObject("EchoTemplate.PlaceholderUI");
+		Object.DontDestroyOnLoad(ui);
+		ui.AddComponent<PlaceholderUI>();
+
 		Debug.Log($"[{NAME}] loaded {VERSION}");
 	}
 }
