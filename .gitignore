@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+
+# Reference DLLs (user supplies their own GTag DLLs)
+libs/*.dll
+libs/*.pdb
+libs/*.xml
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+.nuget/
+packages/
+
+# misc
+*.log
